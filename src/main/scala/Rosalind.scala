@@ -57,15 +57,15 @@ object Rosalind {
   def mendelFirstLaw(k: Int, m: Int, n: Int): Double = {
     val s = k.toDouble + m.toDouble + n.toDouble
 
-    val a : Double = n.toDouble * (n.toDouble -1) /( s *(s -1) )
-    val b : Double = 0.5 * m * n/(s * (s -1) )
-    val c : Double = 0.25 * m * (m-1)/(s * (s -1) )
+    val a: Double = n.toDouble * (n.toDouble - 1) / (s * (s - 1))
+    val b: Double = 0.5 * m * n / (s * (s - 1))
+    val c: Double = 0.25 * m * (m - 1) / (s * (s - 1))
 
     1 - a - 2 * b - c
   }
 
   //
-  def translateRna(rna: String) : List[String] = {
+  def translateRna(rna: String): List[String] = {
     val fileName = "/Users/pavel/devcore/playground/categoryTheoryForProgrammers/src/main/resources/rnaCodonsToaacids.txt"
     val lines = scala.io.Source.fromFile(fileName).getLines()
     val mapping = lines.toList.map(s => {
@@ -82,17 +82,64 @@ object Rosalind {
 
   def occurancesIndex(a: String, b: String): List[Int] = {
     val res = ListBuffer[Int]()
-    a.foldLeft( (0, List[Char]() ) ){ (acc, c) =>
-      if (acc._2.mkString("") == b){
+    a.foldLeft((0, List[Char]())) { (acc, c) =>
+      if (acc._2.mkString("") == b) {
         res.append(acc._1 + 1)
       }
-      if (acc._2.length == b.length){
+      if (acc._2.length == b.length) {
         (acc._1 + 1, acc._2.tail :+ c)
       } else {
         (acc._1, acc._2 :+ c)
       }
     }
     res.toList
+  }
+
+  def consensus(in: List[String]): List[Map[String, Int]] = {
+    val result = ListBuffer[collection.mutable.Map[String, Int]]()
+
+    def compute(ds: String): Unit = {
+      for {
+        i <- 0 to ds.length - 1
+        c = ds(i).toString
+      } yield {
+        val count = result(i)(c)
+        result(i) = result(i) + (c -> (count + 1))
+      }
+    }
+
+    val data = ListBuffer[String]()
+    in.foreach(s => {
+      if (!s.contains("Rosalind")) {
+        data.append(s)
+      }
+      if (s.contains("Rosalind") && data.length > 0 && result.length == 0) {
+        val dataString = data.mkString("")
+        List
+          .fill(dataString.length)(
+            collection.mutable.Map[String, Int]("A" -> 0, "C" -> 0, "G" -> 0, "T" -> 0)
+          )
+          .map(e => result.append(e))
+      }
+      if (s.contains("Rosalind") && data.length > 0) {
+        compute(data.mkString(""))
+        data.clear()
+      }
+    })
+    compute(data.mkString(""))
+    // convert to list and immutable map
+    result.map(e => collection.immutable.Map() ++ e).toList
+  }
+
+  def consensusString(in: List[Map[String, Int]]): String =
+    in.map(x => x.maxBy(_._2)._1).mkString("")
+
+  def consensusMatrix(in: List[Map[String, Int]]): List[String] = {
+    List("A", "C", "G", "T")
+      .map(alpha => {
+        val res = in.map(row => row(alpha)).mkString(" ")
+        s"$alpha: $res"
+      })
   }
 
 }
