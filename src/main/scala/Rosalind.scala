@@ -66,7 +66,7 @@ object Rosalind {
 
   //
   def translateRna(rna: String): List[String] = {
-    val fileName = "/Users/pavel/devcore/playground/categoryTheoryForProgrammers/src/main/resources/rnaCodonsToaacids.txt"
+    val fileName = "/src/main/resources/rnaCodonsToaacids.txt"
     val lines = scala.io.Source.fromFile(fileName).getLines()
     val mapping = lines.toList.map(s => {
       val p = s.trim.split(" ")
