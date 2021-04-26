@@ -9,7 +9,13 @@ class FibSpec extends AnyFunSuite {
   }
 
   test("Rabbit generations count(29)(4)") {
-    val in = State(1, 0, 0)
+    val in = State(1, 0, 0, 0)
+    val res = rabbitIterate(in, 29)( 4)
+    rabbitCount(res) shouldBe BigInt("170361678269")
+  }
+
+  test("Rabbit generations count(29)(4)") {
+    val in = State(1, 0, 0, 0)
     val res = rabbitIterate(in, 29)( 4)
     rabbitCount(res) shouldBe BigInt("170361678269")
   }

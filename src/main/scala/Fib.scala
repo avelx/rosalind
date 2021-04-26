@@ -14,19 +14,21 @@ object Fib {
   }
 
   case class RabbitPair(age: Int) extends AnyVal
-  case class State(age0: BigInt, age1: BigInt, ageAdults: BigInt)
+  case class State(age0: BigInt, age1: BigInt, ageAdults1: BigInt, ageAdults2: BigInt)
+
+  case class StateA(age0: BigInt, age1: BigInt, m: Int, ageAdults: List[Int])
 
   // http://rosalind.info/problems/fib/
   // returns
   def reproduce(state: State)(k: Int): State = state match {
-    case State(age0, age1, adultsNumber) =>
-      State(adultsNumber * k + age0, age1, adultsNumber)
+    case State(age0, age1, adults1, adults2) =>
+      State( (adults1 + adults2) * k + age0, age1, adults1, adults2)
   }
 
   // adds one month time
   def timeMachine(state: State): State = state match {
-    case State(age0, age1, ageAdults) =>
-      State(0, age0, ageAdults + age1)
+    case State(age0, age1, ageAdults1, ageAdults2) =>
+      State(0, age0, age1, ageAdults1 + ageAdults2)
   }
 
   def rabbitIterate(state: State, n: Int)(k: Int): State = n match {
@@ -38,5 +40,5 @@ object Fib {
   }
 
   def rabbitCount(state: State) : BigInt =
-    state.age0 + state.age1 + state.ageAdults
+    state.age0 + state.age1 + state.ageAdults1 + state.ageAdults2
 }
