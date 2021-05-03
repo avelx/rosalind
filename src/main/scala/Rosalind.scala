@@ -1,3 +1,5 @@
+import Runner.in
+
 import scala.collection.mutable.ListBuffer
 
 object Rosalind {
@@ -140,6 +142,40 @@ object Rosalind {
         val res = in.map(row => row(alpha)).mkString(" ")
         s"$alpha: $res"
       })
+  }
+
+  def graphOverlap(in: Map[String, String])(implicit k: Int): List[(String, String)] = {
+    {
+      for {
+        sk <- in.keys
+        tk <- in.keys
+        if sk != tk
+        if stringMatch(in(sk), in(tk))
+      } yield (sk, tk)
+    }.toList
+  }
+
+  def stringMatch(s: String, t: String)(implicit k: Int) : Boolean =
+    s.takeRight(k) == t.take(k)
+
+  def readFile(fileName: String): Map[String, String] = {
+    val it = scala.io.Source.fromFile(fileName).getLines()
+    var (key, value) = ("", "")
+    val res = ListBuffer[(String, String)]()
+    while (it.hasNext){
+      val s = it.next()
+      if (s.contains("Rosalind")){
+        if (key.nonEmpty && value.nonEmpty) {
+          res.append((key, value))
+        }
+        value = ""
+        key = s.replace(">", "")
+      } else {
+        value += s
+      }
+    }
+    res.append( (key, value) )
+    res.toList.toMap
   }
 
 }
