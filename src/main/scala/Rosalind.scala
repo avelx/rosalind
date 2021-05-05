@@ -178,4 +178,13 @@ object Rosalind {
     res.toList.toMap
   }
 
+  // (a[0] * 1 + a[1] * 1 + a[2] * 1 + a[3] *0.75 + a[4] *0.5 + a[5] * 0) * 2
+  // http://rosalind.info/problems/iev/
+  def expectedOffspring(in: List[Int]): Double = in.map(_.toDouble) match {
+    case List(a, b, c, d, e, f) =>
+      (a * 1 + b * 1 + c * 1 + d * 0.75 + e * 0.5 + f * 0) * 2
+    case _ =>
+      throw new Error("Not enough parameters")
+  }
+
 }

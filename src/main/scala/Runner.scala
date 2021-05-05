@@ -1,14 +1,17 @@
-import Runner.in
 
 object Runner extends  App {
   import Rosalind._
-  val fileName = "src/main/resources/graphOverlap2.txt"
-  val in = readFile( fileName )
-  implicit val k : Int = 3
-  println(
-    graphOverlap(in)
-      .map(p => s"${p._1} ${p._2}")
-    .mkString("\n") )
+
+  val in = List(17474, 19404, 19295, 19205, 19335, 18647)
+  println( expectedOffspring(in) )
+
+//  val fileName = "src/main/resources/graphOverlap2.txt"
+//  val in = readFile( fileName )
+//  implicit val k : Int = 3
+//  println(
+//    graphOverlap(in)
+//      .map(p => s"${p._1} ${p._2}")
+//    .mkString("\n") )
 
   //implicit val k = 3
   //println( stringMatch(s, t) )

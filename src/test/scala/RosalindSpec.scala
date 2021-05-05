@@ -66,4 +66,9 @@ class RosalindSpec extends AnyFunSuite {
     } yield assert(result(i) == expected(i))
   }
 
+  test("expectedOffspring") {
+    val in = List(1, 0, 0, 1, 0, 1)
+    assert(expectedOffspring(in) == 3.5D)
+  }
+
 }
