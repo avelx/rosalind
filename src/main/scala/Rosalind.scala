@@ -185,4 +185,33 @@ object Rosalind {
       throw new Error("Not enough parameters")
   }
 
+  def longestCommonSubString(fileName:String): Option[String] = {
+    val in = readFile( fileName )
+
+    def commonSubString(k: Int) : Option[String] = {
+      val xs = in.keys.map(key => {
+        val s = in(key)
+        s.sliding(k, 1).toSet
+      }).toList
+
+      val firstSet = xs.head
+      val res = xs.tail.foldLeft(firstSet) { (acc, curr) => acc intersect curr }
+
+      res.headOption
+    }
+
+    var res : Option[String] = None
+    (2 to in.head._2.length - 1)
+      .takeWhile(k => {
+        commonSubString(k) match {
+          case Some(xs) =>
+            res = Some(xs)
+            true
+          case None =>
+            false
+        }
+      })
+    res
+  }
+
 }

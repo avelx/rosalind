@@ -2,8 +2,12 @@
 object Runner extends  App {
   import Rosalind._
 
-  val in = List(17474, 19404, 19295, 19205, 19335, 18647)
-  println( expectedOffspring(in) )
+  val fileName = "src/main/resources/longestCommonSubString.txt"
+  val res = longestCommonSubString(fileName)
+  println(res)
+
+  //val in = List(17474, 19404, 19295, 19205, 19335, 18647)
+  //println( expectedOffspring(in) )
 
 //  val fileName = "src/main/resources/graphOverlap2.txt"
 //  val in = readFile( fileName )
