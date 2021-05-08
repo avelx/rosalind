@@ -1,5 +1,3 @@
-import Runner.in
-
 import scala.collection.mutable.ListBuffer
 
 object Rosalind {
